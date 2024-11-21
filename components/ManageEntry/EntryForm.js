@@ -1,11 +1,14 @@
 import { Alert, StyleSheet, Text, View } from "react-native";
 import React, { useContext, useEffect, useState } from "react";
+import Ionicons from "@expo/vector-icons/Ionicons";
+
+import DateTimePicker from "react-native-ui-datepicker";
+import { format, isSameDay } from "date-fns";
+import { Dropdown } from "react-native-element-dropdown";
+
 import Input from "./Input";
 import Button from "../UI/Button";
 import { FoodContext } from "../../store/food-context";
-
-import { Dropdown } from "react-native-element-dropdown";
-import Ionicons from "@expo/vector-icons/Ionicons";
 import { getFormattedDate } from "../../util/date";
 import { precise, toRoundedString } from "../../util/number";
 import { GlobalStyles } from "../../constants/styles";
@@ -19,6 +22,8 @@ export default function EntryForm({
   const foodCtx = useContext(FoodContext);
   const selectableFood = foodCtx.food;
   const [selectedFood, setSelectedFood] = useState(null);
+  const [chosenDate, setChosenDate] = useState(new Date());
+
 
   const [inputs, setInputs] = useState({
     description: defaultValues ? defaultValues.description.toString() : "",
@@ -46,8 +51,11 @@ export default function EntryForm({
       carbohydrates: +inputs.carbohydrates,
       fat: +inputs.fat,
       protein: +inputs.protein,
-      weight: inputs.weight.length > 0 ? (+inputs.weight) : 100,
-      date: inputs.date.length > 0 ? new Date(inputs.date) : new Date(getFormattedDate(new Date())),
+      weight: inputs.weight.length > 0 ? +inputs.weight : 100,
+      date:
+        inputs.date.length > 0
+          ? new Date(inputs.date)
+          : new Date(getFormattedDate(new Date())),
     };
 
     const descriptionIsValid = true;
@@ -179,6 +187,15 @@ export default function EntryForm({
           onChangeText: inputChangedHandler.bind(this, "date"),
           value: inputs.date,
           placeholder: getFormattedDate(new Date()),
+        }}
+      />
+      <DateTimePicker
+        mode="single"
+        date={chosenDate}
+        onChange={(params) => {
+          console.log(format(params.date, "yyyy-MM-dd"));
+
+          inputChangedHandler("date", format(params.date, "yyyy-MM-dd"))
         }}
       />
       <View style={styles.buttons}>
