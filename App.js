@@ -8,7 +8,6 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 
 import TodaysEntries from "./screens/TodaysEntries";
-// import WeeksEntries from "./screens/WeeksEntries";
 import AllEntries from "./screens/AllEntries";
 import ManageEntry from "./screens/ManageEntry";
 import EntriesContextProvider from "./store/entries-context";
@@ -59,21 +58,6 @@ function MyTabs() {
           ),
         }}
       />
-      {/* <Tab.Screen
-        name="WeeksEntries"
-        component={WeeksEntries}
-        options={{
-          title: "This week's Entries",
-          tabBarLabel: "Today",
-          tabBarIcon: ({ color, size, focused }) => (
-            <FontAwesome6
-              name={focused ? "calendar-day" : "calendar"}
-              size={size}
-              color={color}
-            />
-          ),
-        }}
-      /> */}
       <Tab.Screen
         name="AllEntries"
         component={AllEntries}
