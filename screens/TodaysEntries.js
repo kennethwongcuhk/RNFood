@@ -59,6 +59,20 @@ export default function TodaysEntries() {
           mode="single"
           date={chosenDate}
           onChange={(params) => setChosenDate(params.date)}
+          calendarTextStyle={{ color: GlobalStyles.colors.primary50 }}
+          selectedItemColor={GlobalStyles.colors.accent500}
+          selectedTextStyle={{ color: GlobalStyles.colors.primary50 }}
+          headerTextStyle={{ color: GlobalStyles.colors.primary50 }}
+          headerButtonColor={GlobalStyles.colors.primary50}
+          weekDaysTextStyle={{ color: GlobalStyles.colors.primary50 }}
+          yearContainerStyle={{
+            backgroundColor: GlobalStyles.colors.primary700,
+            borderWidth: 0,
+          }}
+          monthContainerStyle={{
+            backgroundColor: GlobalStyles.colors.primary700,
+            borderWidth: 0,
+          }}
         />
       </View>
       <EntriesOutput
@@ -76,6 +90,6 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   dateContainer: {
-    backgroundColor: GlobalStyles.colors.primary200,
+    backgroundColor: GlobalStyles.colors.primary500,
   },
 });
