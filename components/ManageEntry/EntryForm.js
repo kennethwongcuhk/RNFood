@@ -188,6 +188,9 @@ export default function EntryForm({
               new Date(format(params.date, "yyyy-MM-dd"))
             );
           }}
+          calendarTextStyle={{color: GlobalStyles.colors.primary700}}
+          selectedItemColor={GlobalStyles.colors.accent500}
+          selectedTextStyle={{color: "black"}}
         />
       </View>
       <View style={styles.buttons}>
