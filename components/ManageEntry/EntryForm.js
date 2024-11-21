@@ -22,17 +22,16 @@ export default function EntryForm({
   const foodCtx = useContext(FoodContext);
   const selectableFood = foodCtx.food;
   const [selectedFood, setSelectedFood] = useState(null);
-  const [chosenDate, setChosenDate] = useState(new Date());
-
-
+  
   const [inputs, setInputs] = useState({
     description: defaultValues ? defaultValues.description.toString() : "",
     carbohydrates: defaultValues ? defaultValues.carbohydrates.toString() : "",
     fat: defaultValues ? defaultValues.fat.toString() : "",
     protein: defaultValues ? defaultValues.protein.toString() : "",
     weight: defaultValues ? defaultValues.weight.toString() : "",
-    date: defaultValues ? getFormattedDate(defaultValues.date) : "",
+    date: defaultValues? defaultValues.date : new Date()
   });
+  const [chosenDate, setChosenDate] = useState(inputs.date);
 
   function inputChangedHandler(inputIdentifier, enteredValue) {
     setInputs((curInputs) => {
@@ -53,9 +52,7 @@ export default function EntryForm({
       protein: +inputs.protein,
       weight: inputs.weight.length > 0 ? +inputs.weight : 100,
       date:
-        inputs.date.length > 0
-          ? new Date(inputs.date)
-          : new Date(getFormattedDate(new Date())),
+        inputs.date
     };
 
     const descriptionIsValid = true;
@@ -181,21 +178,12 @@ export default function EntryForm({
           readOnly: true,
         }}
       />
-      <Input
-        label={"Date"}
-        textInputConfig={{
-          onChangeText: inputChangedHandler.bind(this, "date"),
-          value: inputs.date,
-          placeholder: getFormattedDate(new Date()),
-        }}
-      />
       <DateTimePicker
         mode="single"
         date={chosenDate}
         onChange={(params) => {
-          console.log(format(params.date, "yyyy-MM-dd"));
           setChosenDate(params.date)
-          inputChangedHandler("date", format(params.date, "yyyy-MM-dd"))
+          inputChangedHandler("date", new Date(format(params.date, "yyyy-MM-dd")))
         }}
       />
       <View style={styles.buttons}>
