@@ -10,6 +10,7 @@ import { fetchData } from "../util/http";
 import ErrorOverlay from "../components/UI/ErrorOverlay";
 import LoadingOverlay from "../components/UI/LoadingOverlay";
 import { useNavigation } from "@react-navigation/native";
+import { GlobalStyles } from "../constants/styles";
 
 export default function TodaysEntries() {
   const [isFetching, setIsFetching] = useState(true);
@@ -53,11 +54,13 @@ export default function TodaysEntries() {
 
   return (
     <View style={styles.container}>
-      <DateTimePicker
-        mode="single"
-        date={chosenDate}
-        onChange={(params) => setChosenDate(params.date)}
-      />
+      <View style={styles.dateContainer}>
+        <DateTimePicker
+          mode="single"
+          date={chosenDate}
+          onChange={(params) => setChosenDate(params.date)}
+        />
+      </View>
       <EntriesOutput
         entries={todayEntries}
         entryPeriod={"Total"}
@@ -71,5 +74,8 @@ export default function TodaysEntries() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+  },
+  dateContainer: {
+    backgroundColor: GlobalStyles.colors.primary200,
   },
 });
