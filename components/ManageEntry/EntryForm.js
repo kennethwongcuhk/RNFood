@@ -194,7 +194,7 @@ export default function EntryForm({
         date={chosenDate}
         onChange={(params) => {
           console.log(format(params.date, "yyyy-MM-dd"));
-
+          setChosenDate(params.date)
           inputChangedHandler("date", format(params.date, "yyyy-MM-dd"))
         }}
       />
