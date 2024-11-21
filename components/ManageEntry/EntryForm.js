@@ -1,4 +1,4 @@
-import { Alert, StyleSheet, Text, View } from "react-native";
+import { Alert, ScrollView, StyleSheet, Text, View } from "react-native";
 import React, { useContext, useEffect, useState } from "react";
 import Ionicons from "@expo/vector-icons/Ionicons";
 
@@ -22,14 +22,14 @@ export default function EntryForm({
   const foodCtx = useContext(FoodContext);
   const selectableFood = foodCtx.food;
   const [selectedFood, setSelectedFood] = useState(null);
-  
+
   const [inputs, setInputs] = useState({
     description: defaultValues ? defaultValues.description.toString() : "",
     carbohydrates: defaultValues ? defaultValues.carbohydrates.toString() : "",
     fat: defaultValues ? defaultValues.fat.toString() : "",
     protein: defaultValues ? defaultValues.protein.toString() : "",
     weight: defaultValues ? defaultValues.weight.toString() : "",
-    date: defaultValues? defaultValues.date : new Date()
+    date: defaultValues ? defaultValues.date : new Date(),
   });
   const [chosenDate, setChosenDate] = useState(inputs.date);
 
@@ -51,8 +51,7 @@ export default function EntryForm({
       fat: +inputs.fat,
       protein: +inputs.protein,
       weight: inputs.weight.length > 0 ? +inputs.weight : 100,
-      date:
-        inputs.date
+      date: inputs.date,
     };
 
     const descriptionIsValid = true;
@@ -178,14 +177,19 @@ export default function EntryForm({
           readOnly: true,
         }}
       />
-      <DateTimePicker
-        mode="single"
-        date={chosenDate}
-        onChange={(params) => {
-          setChosenDate(params.date)
-          inputChangedHandler("date", new Date(format(params.date, "yyyy-MM-dd")))
-        }}
-      />
+      <View style={styles.dateContainer}>
+        <DateTimePicker
+          mode="single"
+          date={chosenDate}
+          onChange={(params) => {
+            setChosenDate(params.date);
+            inputChangedHandler(
+              "date",
+              new Date(format(params.date, "yyyy-MM-dd"))
+            );
+          }}
+        />
+      </View>
       <View style={styles.buttons}>
         <Button style={styles.button} onPress={onCancel} mode="flat">
           {"Cancel"}
@@ -214,6 +218,11 @@ const styles = StyleSheet.create({
   },
   rowInput: {
     flex: 1,
+  },
+  dateContainer: {
+    borderRadius: 20,
+    backgroundColor: GlobalStyles.colors.primary100,
+    marginVertical: 20,
   },
   buttons: {
     flexDirection: "row",
