@@ -44,3 +44,24 @@ If there are more entries than what can be shown one at a time, user can scroll 
 <img src="assets/screenshots/main/icon_active.png" width=250>
 
 Like in the calendar, the currently active screen will be in a accent color. Moreover, the icon for active and inactive is different. The inactive icon is a calender with empty design while the active icon is a calender with a block of one day to highlight to user "this is the screen for one day's entry, not one week or month".
+
+## All entries
+
+### Overview
+
+The all entries screen is a simplified version of the main screen which shows all food entries of the user.
+
+<img src="assets/screenshots/all/scroll_top.png" width=250>
+<img src="assets/screenshots/all/scroll_bottom.png" width=250>
+
+The header is similar but instead of a date and hard coded "All Entries" is shown. The rightside "+" button remains the same for adding a new food entry. The calendar is gone as it is not useful for all entries. Summary is also not a part of this screen. Showing calories summary for every entries logged to the device is not meaningful since we assume majority of users focus on how much they ate in one day and the TDEE (Total Daily Energy Expenditure) rather than how much they ate throughout a longer period.
+
+Scrolling is available when the amount of entries exceed the screen.
+
+
+### Bottom tab
+
+<img src="assets/screenshots/all/icon_inactive.png" width=250>
+<img src="assets/screenshots/all/icon_active.png" width=250>
+
+Same design philosophy as the main screen. But this time the active icon is a calendar with grid design, highlighting it's all instead of just one
