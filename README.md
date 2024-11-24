@@ -65,3 +65,50 @@ Scrolling is available when the amount of entries exceed the screen.
 <img src="assets/screenshots/all/icon_active.png" width=250>
 
 Same design philosophy as the main screen. But this time the active icon is a calendar with grid design, highlighting it's all instead of just one
+
+## Manage entries screen
+
+### Overview
+
+The manage entries screen is used for adding a new food entry and editing an existing entry. It can be opened in 2 ways: clicking on the "+" icon in the header; or tapping on an existing entry componment. 
+
+<img src="assets/screenshots/manage/new.png" width=250>
+<img src="assets/screenshots/manage/edit.png" width=250>
+
+Main difference is when editing an existing entry, there is a delete button for deleting the entry from storage, which is not needed for adding a new entry. The title in header and the texts in buttons are also slightly different.
+
+In add mode, some placeholders are shown on the screen, which also act as default values when user does not make any changes too them, like the text "New Food" for the description and number 100 for weight. Current date is the default value for the date field as we assume user is adding a new food entry for them that day The calendar shows the current day initially but it is absolutely selectable and works the same as the calendar in the main screen.
+
+Fields like carbs, fat, protein and calories are not directly editable, as they depend on the selected food and the input weight.
+
+### Dropdown
+
+<img src="assets/screenshots/manage/dropdown.png" width=250>
+<img src="assets/screenshots/manage/dropdown_search.png" width=250>
+
+
+The dropdown list shows every food item the user can choose from. Since it can be long, the max height of the dropdown is limited and is scrollable. A search field with placeholder "Search..." is an text input for filtering items.
+
+### Changing values
+
+<img src="assets/screenshots/manage/selected.png" width=250>
+<img src="assets/screenshots/manage/selected_edited.png" width=250>
+
+
+When a food item is selected, the dropdown closes automatically and the description input gets the name of the food item. User can leave it as it is or edit the description.
+
+The carbs, fat, protein and calories fields are calculated based on the value per 100g times the input weight (100 by default). User can make changes to the weight can all fields will be instantly calculated again and rounded to the nearest 1.
+
+### Submitting
+
+<img src="assets/screenshots/manage/closed.png" width=250>
+
+
+Submit the new entry by clicking "Add" in add mdoe or "Update" in edit mode. The screen closes itself and new/updated entry is shown instantly without extra data fetching as the app is utilizing Context in React.
+
+### Closing
+
+<img src="assets/screenshots/manage/swipe_top.png" width=250>
+<img src="assets/screenshots/manage/swipe_bottom.png" width=250>
+
+Closing the screen can be the done in 2 ways: clicking on the "Cancel" button at the bottom; or swipe the screen down. The entry will not be added nor updated.
