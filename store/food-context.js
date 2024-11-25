@@ -17,52 +17,32 @@ function foodReducer(state, action) {
   }
 }
 
+function createFood(
+  description = "Name",
+  carbohydrates = 0,
+  fat = 0,
+  protein = 0
+) {
+  return {
+    id: Math.random().toString(),
+    description,
+    nutrients: {
+      carbohydrates,
+      fat,
+      protein,
+    },
+  };
+}
+
 const DUMMY_DATA = [
-  {
-    id: "f1",
-    description: "Egg",
-    nutrients: {
-      carbohydrates: 0.77,
-      fat: 9.94,
-      protein: 12.58,
-    },
-  },
-  {
-    id: "f2",
-    description: "White rice",
-    nutrients: {
-      carbohydrates: 44.08,
-      fat: 0.44,
-      protein: 4.2,
-    },
-  },
-  {
-    id: "f3",
-    description: "Chicken breast",
-    nutrients: {
-      carbohydrates: 0,
-      fat: 7.72,
-      protein: 29.55,
-    },
-  },
-  {
-    id: "f4",
-    description: "Salmon",
-    nutrients: {
-      carbohydrates: 0,
-      fat: 5.93,
-      protein: 21.62,
-    },
-  },
-  {
-    id: "f5",
-    description: "Onion",
-    nutrients: {
-      carbohydrates: 10.11,
-      fat: 0.08,
-      protein: 0.92,
-    },
-  },
+  createFood("Almond butter", 21.2, 53, 20.8),
+  createFood("Almond milk", 0.67, 1.56, 0.66),
+  createFood("Apple juice", 11.4, 0.29, 0.09),
+  createFood("Avocado", 8.32, 20.3, 1.81),
+  createFood("Bananas", 20.1, 0.22, 0.73),
+  createFood("Beef", 0, 17.8, 18.4),
+  createFood("Egg", 0.96, 9.96, 12.4),
+  createFood("Rice, white", 80.3, 1.03, 7.04),
 ];
 
 export default function FoodContextProvider({ children }) {
