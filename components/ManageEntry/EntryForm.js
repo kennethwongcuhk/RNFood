@@ -191,6 +191,7 @@ export default function EntryForm({
           calendarTextStyle={{color: GlobalStyles.colors.primary700}}
           selectedItemColor={GlobalStyles.colors.accent500}
           selectedTextStyle={{color: "black"}}
+          height={200}
         />
       </View>
       <View style={styles.buttons}>
