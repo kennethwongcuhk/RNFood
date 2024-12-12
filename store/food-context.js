@@ -42,7 +42,8 @@ const DUMMY_DATA = [
   createFood("Bananas", 20.1, 0.22, 0.73),
   createFood("Beef", 0, 17.8, 18.4),
   createFood("Egg", 0.96, 9.96, 12.4),
-  createFood("Rice, white", 80.3, 1.03, 7.04),
+  createFood("Rice, white, uncooked", 80.3, 1.03, 7.04),
+  createFood("Rice, white, cooked", 44, 0.44, 4.2),
 ];
 
 export default function FoodContextProvider({ children }) {
