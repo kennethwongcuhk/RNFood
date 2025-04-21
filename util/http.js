@@ -36,3 +36,37 @@ export function updateEntry(id, entryData) {
 export function deleteEntry(id) {
   return axios.delete(BACKEND_URL + `entry/${id}.json`);
 }
+
+export async function storeFood(foodData) {
+  const response = await axios.post(BACKEND_URL + "food.json", foodData);
+  const id = response.data.name;
+  return id;
+}
+
+export async function fetchFood() {
+  const response = await axios.get(BACKEND_URL + "food.json");
+  const food = response.data
+    ? Object.entries(response.data).map(
+        ([
+          key,
+          {
+            description,
+            nutrients: { carbohydrates, fat, protein },
+          },
+        ]) => ({
+          id: key,
+          description,
+          nutrients: { carbohydrates, fat, protein },
+        })
+      )
+    : [];
+  return food;
+}
+
+export function updateFood(id, foodData) {
+  return axios.put(BACKEND_URL + `food/${id}.json`, foodData);
+}
+
+export function deleteFood(id) {
+  return axios.delete(BACKEND_URL + `food/${id}.json`);
+}

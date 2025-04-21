@@ -2,6 +2,7 @@ import { StatusBar } from "expo-status-bar";
 import { StyleSheet, Text, View } from "react-native";
 import IconButton from "./components/UI/IconButton";
 import FontAwesome6 from "@expo/vector-icons/FontAwesome6";
+import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
 
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
@@ -13,6 +14,8 @@ import ManageEntry from "./screens/ManageEntry";
 import EntriesContextProvider from "./store/entries-context";
 import FoodContextProvider from "./store/food-context";
 import { GlobalStyles } from "./constants/styles";
+import AllFood from "./screens/AllFood";
+import ManageFood from "./screens/ManageFood";
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
@@ -20,35 +23,21 @@ const Stack = createNativeStackNavigator();
 function MyTabs() {
   return (
     <Tab.Navigator
-      screenOptions={({ navigation }) => ({
-        headerStyle: { backgroundColor: GlobalStyles.colors.primary500 },
-        headerTintColor: "#ffffff",
+      screenOptions={{
         tabBarStyle: {
           backgroundColor: GlobalStyles.colors.primary500,
           height: 85,
         },
         tabBarActiveTintColor: GlobalStyles.colors.accent500,
         tabBarLabelStyle: { fontSize: 12 },
-        headerRight: ({ tintColor }) => {
-          return (
-            <IconButton
-              icon={"plus"}
-              size={24}
-              color={tintColor}
-              onPress={() => {
-                navigation.navigate("ManageEntry");
-              }}
-            />
-          );
-        },
-      })}
+      }}
     >
       <Tab.Screen
-        name="TodaysEntries"
-        component={TodaysEntries}
+        name="EntryStack"
+        component={EntryStack}
         options={{
-          title: "Today",
           tabBarLabel: "Entries",
+          headerShown: false,
           tabBarIcon: ({ color, size, focused }) => (
             <FontAwesome6
               name={focused ? "calendar-day" : "calendar"}
@@ -59,14 +48,14 @@ function MyTabs() {
         }}
       />
       <Tab.Screen
-        name="AllEntries"
-        component={AllEntries}
+        name="FoodStack"
+        component={FoodStack}
         options={{
-          title: "All Entries",
-          tabBarLabel: "All",
+          tabBarLabel: "Food",
+          headerShown: false,
           tabBarIcon: ({ color, size, focused }) => (
-            <FontAwesome6
-              name={focused ? "calendar-days" : "calendar"}
+            <MaterialCommunityIcons
+              name={focused ? "food-takeout-box" : "food-takeout-box-outline"}
               size={size}
               color={color}
             />
@@ -77,7 +66,7 @@ function MyTabs() {
   );
 }
 
-function RootStack() {
+function EntryStack() {
   return (
     <Stack.Navigator
       screenOptions={{
@@ -86,14 +75,66 @@ function RootStack() {
       }}
     >
       <Stack.Screen
-        name="MyTabs"
-        component={MyTabs}
-        options={{ headerShown: false }}
+        name="TodaysEntries"
+        component={TodaysEntries}
+        options={({ navigation }) => ({
+          headerRight: ({ tintColor }) => {
+            return (
+              <IconButton
+                icon={"plus"}
+                size={24}
+                color={tintColor}
+                onPress={() => {
+                  navigation.navigate("ManageEntry");
+                }}
+              />
+            );
+          },
+        })}
       />
       <Stack.Screen
         name="ManageEntry"
         component={ManageEntry}
         options={{
+          headerBackTitle: "Back",
+          presentation: "modal",
+        }}
+      />
+    </Stack.Navigator>
+  );
+}
+function FoodStack() {
+  return (
+    <Stack.Navigator
+      screenOptions={{
+        headerStyle: { backgroundColor: GlobalStyles.colors.primary500 },
+        headerTintColor: "#ffffff",
+      }}
+    >
+      <Stack.Screen
+        name="AllFood"
+        component={AllFood}
+        options={({ navigation }) => ({
+          title: "Food Items",
+          headerRight: ({ tintColor }) => {
+            return (
+              <IconButton
+                icon={"plus"}
+                size={24}
+                color={tintColor}
+                onPress={() => {
+                  navigation.navigate("ManageFood");
+                }}
+              />
+            );
+          },
+        })}
+      />
+      <Stack.Screen
+        name="ManageFood"
+        component={ManageFood}
+        options={{
+          title: "Manage Food Item",
           headerBackTitle: "Back",
           presentation: "modal",
         }}
@@ -109,7 +150,7 @@ export default function App() {
       <EntriesContextProvider>
         <FoodContextProvider>
           <NavigationContainer>
-            <RootStack />
+            <MyTabs />
           </NavigationContainer>
         </FoodContextProvider>
       </EntriesContextProvider>
