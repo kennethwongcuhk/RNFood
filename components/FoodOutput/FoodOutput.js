@@ -2,10 +2,12 @@ import { StyleSheet, Text, View } from "react-native";
 import React from "react";
 import { GlobalStyles } from "../../constants/styles";
 import FoodList from "./FoodList";
+import FoodHeader from "./FoodHeader";
 
 export default function FoodOutput({ food, fallbackText }) {
   return (
     <View style={styles.container}>
+      <FoodHeader />
       {food.length > 0 ? (
         <FoodList food={food}/>
       ) : (
