@@ -5,15 +5,15 @@ import { getCalories, toRoundedString } from "../../util/number";
 import { GlobalStyles } from "../../constants/styles";
 
 export default function FoodHeader() {
-
   return (
     <View style={styles.container}>
-      <Text style={styles.period}>Food</Text>
-      <View style={styles.nutrients} >
-
-      <Text style={styles.nutrient}>Carbs</Text>
-      <Text style={styles.nutrient}>Fat</Text>
-      <Text style={styles.nutrient}>Protein</Text>
+      <View style={styles.foodColumn}>
+        <Text style={styles.headerText}>Food Item</Text>
+      </View>
+      <View style={styles.nutrientsRow}>
+        <Text style={styles.nutrientHeader}>Carbs</Text>
+        <Text style={styles.nutrientHeader}>Fat</Text>
+        <Text style={styles.nutrientHeader}>Protein</Text>
       </View>
     </View>
   );
@@ -21,29 +21,33 @@ export default function FoodHeader() {
 
 const styles = StyleSheet.create({
   container: {
-    padding: 8,
-    paddingRight: 20,
-    backgroundColor: GlobalStyles.colors.primary50,
-    borderRadius: 6,
+    padding: 12,
+    backgroundColor: GlobalStyles.colors.primary500,
+    borderRadius: 8,
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
+    marginBottom: 10,
   },
-  period: {
+  foodColumn: {
+    flex: 1,
+  },
+  headerText: {
     fontSize: 16,
-    color: GlobalStyles.colors.primary400,
-  },
-  nutrients: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-  },
-  nutrient: {
-    minWidth: 40,
-    fontSize: 12,
     fontWeight: "bold",
-    fontFamily: "Courier New",
-    color: GlobalStyles.colors.primary500,
-    marginHorizontal: 5,
+    color: "#ffffff",
+  },
+  nutrientsRow: {
+    flexDirection: "row",
+    justifyContent: "flex-end",
+    alignItems: "center",
+    width: '60%',
+  },
+  nutrientHeader: {
+    width: 60,
+    fontSize: 14,
+    fontWeight: "bold",
+    color: "#ffffff",
+    textAlign: "center",
   },
 });

@@ -9,38 +9,39 @@ export default function FoodItem({
   description,
   nutrients: { carbohydrates, fat, protein },
 }) {
-
   const navigation = useNavigation();
-  
   
   function entryPressHandler() {
     navigation.navigate("ManageFood", { foodId: id });
   }
 
   return (
-    <Pressable onPress={entryPressHandler}>
-      <View style={styles.entryItem}>
+    <Pressable 
+      onPress={entryPressHandler}
+      style={({ pressed }) => pressed && styles.pressed}
+    >
+      <View style={styles.foodItem}>
         <View style={styles.descriptionContainer}>
-          <Text style={[styles.textBase, styles.description]}>
-            {description.length > 20
-              ? description.substr(0, 20) + "..."
-              : description}
+          <Text style={styles.description} numberOfLines={1} ellipsizeMode="tail">
+            {description}
           </Text>
         </View>
-        <View style={styles.numberContainer}>
-          <Text style={[styles.textBase, styles.amount]}>
-            {toRoundedString(carbohydrates)}
-          </Text>
-        </View>
-        <View style={styles.numberContainer}>
-          <Text style={[styles.textBase, styles.amount]}>
-            {toRoundedString(fat)}
-          </Text>
-        </View>
-        <View style={styles.numberContainer}>
-          <Text style={[styles.textBase, styles.amount]}>
-            {toRoundedString(protein)}
-          </Text>
+        <View style={styles.nutrientsRow}>
+          <View style={styles.nutrientContainer}>
+            <Text style={styles.nutrientValue}>
+              {toRoundedString(carbohydrates)}
+            </Text>
+          </View>
+          <View style={styles.nutrientContainer}>
+            <Text style={styles.nutrientValue}>
+              {toRoundedString(fat)}
+            </Text>
+          </View>
+          <View style={styles.nutrientContainer}>
+            <Text style={styles.nutrientValue}>
+              {toRoundedString(protein)}
+            </Text>
+          </View>
         </View>
       </View>
     </Pressable>
@@ -51,10 +52,11 @@ const styles = StyleSheet.create({
   pressed: {
     opacity: 0.75,
   },
-  entryItem: {
+  foodItem: {
     padding: 12,
     marginVertical: 8,
-    backgroundColor: GlobalStyles.colors.primary200,
+    backgroundColor: GlobalStyles.colors.primary700,
+    borderRadius: 8,
     flexDirection: "row",
     alignItems: "center",
     elevation: 3,
@@ -63,32 +65,34 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 1, height: 1 },
     shadowOpacity: 0.4,
   },
-  textBase: {
-    color: GlobalStyles.colors.primary50,
-  },
   descriptionContainer: {
     flex: 1,
-    marginRight: 5,
+    marginRight: 8,
   },
   description: {
     fontSize: 16,
-    marginBottom: 4,
+    color: GlobalStyles.colors.primary50,
     fontWeight: "bold",
   },
-  numberContainer: {
-    paddingHorizontal: 8,
-    paddingVertical: 4,
-    backgroundColor: "#ffffff",
-    justifyContent: "center",
-    alignItems: "flex-end",
-    borderRadius: 4,
-    minWidth: 50,
-    marginHorizontal: 5,
+  nutrientsRow: {
+    flexDirection: "row",
+    justifyContent: "flex-end",
+    alignItems: "center",
+    width: '60%',
   },
-  amount: {
-    color: GlobalStyles.colors.primary500,
+  nutrientContainer: {
+    width: 60,
+    alignItems: "center",
+  },
+  nutrientValue: {
+    backgroundColor: GlobalStyles.colors.primary100,
+    color: GlobalStyles.colors.primary800,
     fontWeight: "bold",
     fontSize: 14,
-    fontFamily: "Courier New",
+    paddingHorizontal: 8,
+    paddingVertical: 4,
+    borderRadius: 4,
+    minWidth: 40,
+    textAlign: "center",
   },
 });

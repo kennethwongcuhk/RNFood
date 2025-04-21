@@ -80,3 +80,26 @@ export async function fetchTdee() {
 export function updateTdee(tdee) {
   return axios.put(BACKEND_URL + `tdee.json`, { value: tdee });
 }
+
+export async function addPost(postData) {
+  const response = await axios.post(BACKEND_URL + "posts.json", postData);
+  const id = response.data.name;
+  return id;
+}
+
+export async function fetchPosts() {
+  const response = await axios.get(BACKEND_URL + "posts.json");
+  const posts = response.data
+    ? Object.entries(response.data).map(
+        ([key, { title, username, content, date, foodItem }]) => ({
+          id: key,
+          title,
+          username,
+          content,
+          date: new Date(date),
+          foodItem: foodItem || null,
+        })
+      )
+    : [];
+  return posts;
+}

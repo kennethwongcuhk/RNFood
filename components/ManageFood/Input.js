@@ -3,10 +3,10 @@ import React from "react";
 
 import { GlobalStyles } from "../../constants/styles";
 
-export default function Input({ label, style, invalid, textInputConfig }) {
+export default function Input({ label, style, invalid, textInputConfig, hideLabel }) {
   return (
     <View style={[styles.inputContainer, style]}>
-      <Text style={[styles.label]}>{label}</Text>
+      {!hideLabel && <Text style={[styles.label]}>{label}</Text>}
       <TextInput style={[styles.input]} {...textInputConfig} />
     </View>
   );
@@ -19,7 +19,7 @@ const styles = StyleSheet.create({
   },
   label: {
     fontSize: 12,
-    color: GlobalStyles.colors.primary700,
+    color: GlobalStyles.colors.primary100,
     marginBottom: 4,
   },
   input: {

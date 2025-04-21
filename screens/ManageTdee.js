@@ -58,81 +58,99 @@ export default function ManageTdee() {
   async function updateTdeeHandler() {
     tdeeCtx.setTdee(tdee)
     await updateTdee(tdee);
+    Alert.alert("Success", "Your TDEE has been updated!");
   }
 
   return (
     <ScrollView style={styles.container}>
-      <View style={styles.inputsRow}>
-        <Input
-        style={styles.rowInput}
-          label={"Height"}
-          textInputConfig={{
-            onChangeText: setHeight,
-            value: { height },
-            placeholder: "Height(cm)",
-            keyboardType: "numeric",
-          }}
-        />
-        <Input
-        style={styles.rowInput}
-          label={"Weight"}
-          textInputConfig={{
-            onChangeText: setWeight,
-            value: { weight },
-            placeholder: "Weight(kg)",
-            keyboardType: "numeric",
-          }}
-        />
-        <Input
-        style={styles.rowInput}
-          label={"Age"}
-          textInputConfig={{
-            onChangeText: setAge,
-            value: { age },
-            placeholder: "Age",
-            keyboardType: "numeric",
-          }}
-        />
+      <View style={styles.card}>
+        <Text style={styles.sectionTitle}>Personal Information</Text>
+        <View style={styles.inputsRow}>
+          <Input
+            style={styles.rowInput}
+            label={"Height"}
+            textInputConfig={{
+              onChangeText: setHeight,
+              value: { height },
+              placeholder: "Height(cm)",
+              keyboardType: "numeric",
+              placeholderTextColor: "#AAAAAA",
+            }}
+          />
+          <Input
+            style={styles.rowInput}
+            label={"Weight"}
+            textInputConfig={{
+              onChangeText: setWeight,
+              value: { weight },
+              placeholder: "Weight(kg)",
+              keyboardType: "numeric",
+              placeholderTextColor: "#AAAAAA",
+            }}
+          />
+          <Input
+            style={styles.rowInput}
+            label={"Age"}
+            textInputConfig={{
+              onChangeText: setAge,
+              value: { age },
+              placeholder: "Age",
+              keyboardType: "numeric",
+              placeholderTextColor: "#AAAAAA",
+            }}
+          />
+        </View>
+        
+        <Text style={styles.sectionTitle}>Activity & Goals</Text>
+        <Text style={styles.pickerLabel}>Activity Level (Days per Week):</Text>
+        <View style={styles.pickerContainer}>
+          <Picker
+            selectedValue={activityLevel}
+            style={styles.picker}
+            onValueChange={(itemValue) => setActivityLevel(itemValue)}
+          >
+            {activityLevels.map((level, index) => (
+              <Picker.Item
+                color={GlobalStyles.colors.primary100}
+                key={index}
+                label={level.label}
+                value={level.value.toString()}
+              />
+            ))}
+          </Picker>
+        </View>
+        
+        <Text style={styles.pickerLabel}>Fitness/Workout Goal:</Text>
+        <View style={styles.pickerContainer}>
+          <Picker
+            selectedValue={goal}
+            style={styles.picker}
+            onValueChange={(itemValue) => setGoal(itemValue)}
+          >
+            {goals.map((level, index) => (
+              <Picker.Item
+                color={GlobalStyles.colors.primary100}
+                key={index}
+                label={level.label}
+                value={level.value.toString()}
+              />
+            ))}
+          </Picker>
+        </View>
+        
+        <View style={styles.buttonContainer}>
+          <Button onPress={calculateTDEE}>Calculate TDEE</Button>
+        </View>
       </View>
-      <Text style={styles.pickerLabel}>Activity Level (Days per Week):</Text>
-      <Picker
-        selectedValue={activityLevel}
-        style={{
-          color: GlobalStyles.colors.primary100,
-        }}
-        onValueChange={(itemValue) => setActivityLevel(itemValue)}
-      >
-        {activityLevels.map((level, index) => (
-          <Picker.Item
-            color={GlobalStyles.colors.primary100}
-            key={index}
-            label={level.label}
-            value={level.value.toString()}
-          />
-        ))}
-      </Picker>
-      <Text style={styles.pickerLabel}>Fitness/Workout Goal</Text>
-      <Picker
-        selectedValue={goal}
-        style={{
-          color: GlobalStyles.colors.primary100,
-        }}
-        onValueChange={(itemValue) => setGoal(itemValue)}
-      >
-        {goals.map((level, index) => (
-          <Picker.Item
-            color={GlobalStyles.colors.primary100}
-            key={index}
-            label={level.label}
-            value={level.value.toString()}
-          />
-        ))}
-      </Picker>
-      <Button onPress={calculateTDEE}>Calculate</Button>
+      
       {tdee !== null && (
-        <View style={styles.result}>
+        <View style={styles.resultCard}>
+          <Text style={styles.resultLabel}>Your Daily Calories:</Text>
           <Text style={styles.resultText}>{tdee.toFixed(0)}</Text>
-          <Button onPress={updateTdeeHandler}>Update as my new TDEE</Button>
+          <Text style={styles.unitText}>calories/day</Text>
+          <View style={styles.updateButtonContainer}>
+            <Button onPress={updateTdeeHandler}>Save as my TDEE</Button>
+          </View>
         </View>
       )}
     </ScrollView>
@@ -142,30 +160,75 @@ export default function ManageTdee() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 12,
+    padding: 16,
     backgroundColor: GlobalStyles.colors.primary800,
+  },
+  card: {
+    backgroundColor: GlobalStyles.colors.primary700,
+    borderRadius: 12,
+    padding: 16,
+    marginBottom: 16,
+    elevation: 3,
+  },
+  sectionTitle: {
+    fontSize: 18,
+    fontWeight: "bold",
+    color: GlobalStyles.colors.accent500,
+    marginBottom: 12,
+    marginTop: 8,
   },
   inputsRow: {
     flexDirection: "row",
     justifyContent: "space-between",
-    gap: 4,
+    gap: 8,
+    marginBottom: 16,
   },
   rowInput: {
     flex: 1,
   },
   pickerLabel: {
     color: GlobalStyles.colors.primary100,
+    fontSize: 16,
+    marginBottom: 4,
   },
-  result: {
-    flexDirection: "row",
-    justifyContent: "center",
-    alignItems: "center",
-    gap: 5,
+  pickerContainer: {
+    backgroundColor: GlobalStyles.colors.primary800,
+    borderRadius: 8,
+    marginBottom: 16,
+    overflow: 'hidden',
+  },
+  picker: {
+    color: GlobalStyles.colors.primary100,
+  },
+  buttonContainer: {
+    marginTop: 8,
+    alignItems: 'center',
+  },
+  resultCard: {
+    backgroundColor: GlobalStyles.colors.primary700,
+    borderRadius: 12,
+    padding: 20,
+    alignItems: 'center',
+    elevation: 3,
+  },
+  resultLabel: {
+    fontSize: 16,
+    color: GlobalStyles.colors.primary100,
+    marginBottom: 8,
   },
   resultText: {
-    fontSize: 50,
+    fontSize: 48,
     fontWeight: "bold",
-    color: GlobalStyles.colors.primary100,
+    color: GlobalStyles.colors.accent500,
     textAlign: "center",
+  },
+  unitText: {
+    fontSize: 14,
+    color: GlobalStyles.colors.primary100,
+    marginTop: 4,
+    marginBottom: 16,
+  },
+  updateButtonContainer: {
+    width: '80%',
   },
 });

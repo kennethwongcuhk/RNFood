@@ -3,6 +3,7 @@ import { StyleSheet, Text, View } from "react-native";
 import IconButton from "./components/UI/IconButton";
 import FontAwesome6 from "@expo/vector-icons/FontAwesome6";
 import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
+import Ionicons from "@expo/vector-icons/Ionicons";
 
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
@@ -17,6 +18,7 @@ import { GlobalStyles } from "./constants/styles";
 import AllFood from "./screens/AllFood";
 import ManageFood from "./screens/ManageFood";
 import ManageTdee from "./screens/ManageTdee";
+import Community from "./screens/Community";
 import TdeeContextProvider from "./store/tdee-context";
 
 const Tab = createBottomTabNavigator();
@@ -75,6 +77,23 @@ function MyTabs() {
           tabBarIcon: ({ color, size, focused }) => (
             <MaterialCommunityIcons
               name={focused ? "calculator-variant" : "calculator-variant-outline"}
+              size={size}
+              color={color}
+            />
+          ),
+        }}
+      />
+      <Tab.Screen
+        name="Community"
+        component={Community}
+        options={{
+          headerStyle: { backgroundColor: GlobalStyles.colors.primary500 },
+          headerTintColor: "#ffffff",
+          tabBarLabel: "Community",
+          title: "Community Feed",
+          tabBarIcon: ({ color, size, focused }) => (
+            <Ionicons
+              name={focused ? "people" : "people-outline"}
               size={size}
               color={color}
             />
