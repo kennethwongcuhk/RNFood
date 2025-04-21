@@ -8,7 +8,7 @@ export default function EntriesSummary({ entries, periodName, tdee }) {
   const entriesSum = entries.reduce((sum, entry) => {
     return sum + getCalories(entry)
   }, 0)
-  console.log(tdee);
+  // console.log(tdee);
 
   return (
     <View style={styles.container}>
