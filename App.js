@@ -16,6 +16,8 @@ import FoodContextProvider from "./store/food-context";
 import { GlobalStyles } from "./constants/styles";
 import AllFood from "./screens/AllFood";
 import ManageFood from "./screens/ManageFood";
+import ManageTdee from "./screens/ManageTdee";
+import TdeeContextProvider from "./store/tdee-context";
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
@@ -56,6 +58,23 @@ function MyTabs() {
           tabBarIcon: ({ color, size, focused }) => (
             <MaterialCommunityIcons
               name={focused ? "food-takeout-box" : "food-takeout-box-outline"}
+              size={size}
+              color={color}
+            />
+          ),
+        }}
+      />
+      <Tab.Screen
+        name="ManageTdee"
+        component={ManageTdee}
+        options={{
+          headerStyle: { backgroundColor: GlobalStyles.colors.primary500 },
+          headerTintColor: "#ffffff",
+          tabBarLabel: "TDEE",
+          title: "TDEE Calculator",
+          tabBarIcon: ({ color, size, focused }) => (
+            <MaterialCommunityIcons
+              name={focused ? "calculator-variant" : "calculator-variant-outline"}
               size={size}
               color={color}
             />
@@ -147,6 +166,8 @@ export default function App() {
   return (
     <>
       <StatusBar style="light" />
+      <TdeeContextProvider>
+        
       <EntriesContextProvider>
         <FoodContextProvider>
           <NavigationContainer>
@@ -154,6 +175,7 @@ export default function App() {
           </NavigationContainer>
         </FoodContextProvider>
       </EntriesContextProvider>
+      </TdeeContextProvider>
     </>
   );
 }

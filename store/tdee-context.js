@@ -1,8 +1,8 @@
 import { createContext, useReducer } from "react";
-import { EntriesContext } from "./entries-context";
 
-export const tdeeContext = createContext({
-  tdee: 0.0,
+
+export const TdeeContext = createContext({
+  tdee: 0,
   setTdee: (tdee) => {},
   updateTdee: (id, { tdee }) => {},
 });
@@ -20,15 +20,16 @@ function tdeeReducer(state, action) {
 
 const DUMMY_TDEE = 0;
 
-export default function TdeeProvider({ children }) {
-  const [tdeeState, dispatch] = useReducer(tdeeReducer, DUMMY_TDEE);
+export default function TdeeContextProvider({ children }) {
+  const [tdeeState, dispatch] = useReducer(tdeeReducer, 0);
 
   function setTdee(tdee) {
+ 
     dispatch({ type: "SET", payload: tdee });
   }
 
   function updateTdee(id, tdee) {
-    dispatch({ type: "SET", payload: { id, data: tdee } });
+    dispatch({ type: "UPDATE", payload: { id, data: tdee } });
   }
 
   const value = {
@@ -38,6 +39,6 @@ export default function TdeeProvider({ children }) {
   };
 
   return (
-    <EntriesContext.Provider value={value}>{children}</EntriesContext.Provider>
+    <TdeeContext.Provider value={value}>{children}</TdeeContext.Provider>
   )
 }

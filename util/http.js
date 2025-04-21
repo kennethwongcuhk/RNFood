@@ -73,6 +73,10 @@ export function deleteFood(id) {
 
 export async function fetchTdee() {
   const response = await axios.get(BACKEND_URL + "tdee.json");
-  const food = response.data
+  const food = response.data.value;
   return food;
+}
+
+export function updateTdee(tdee) {
+  return axios.put(BACKEND_URL + `tdee.json`, { value: tdee });
 }
