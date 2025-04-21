@@ -4,15 +4,16 @@ import React from "react";
 import { getCalories, toRoundedString } from "../../util/number";
 import { GlobalStyles } from "../../constants/styles";
 
-export default function EntriesSummary({ entries, periodName }) {
+export default function EntriesSummary({ entries, periodName, tdee }) {
   const entriesSum = entries.reduce((sum, entry) => {
     return sum + getCalories(entry)
   }, 0)
+  console.log(tdee);
 
   return (
     <View style={styles.container}>
       <Text style={styles.period}>{periodName}</Text>
-      <Text style={styles.sum}>{toRoundedString(entriesSum)}</Text>
+      <Text style={styles.sum}>{`${toRoundedString(tdee)} - ${toRoundedString(entriesSum)} = ${toRoundedString(tdee - entriesSum)}`}</Text>
     </View>
   );
 }

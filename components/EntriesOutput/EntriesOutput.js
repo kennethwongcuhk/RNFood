@@ -10,11 +10,12 @@ export default function EntriesOutput({
   entryPeriod,
   fallbackText,
   showSummary,
-}) {
+  tdee
+}) {  
   return (
     <View style={styles.container}>
       {showSummary && (
-        <EntriesSummary entries={entries} periodName={entryPeriod} />
+        <EntriesSummary tdee={tdee} entries={entries} periodName={entryPeriod} />
       )}
       {entries.length > 0 ? (
         <EntriesList entries={entries} />

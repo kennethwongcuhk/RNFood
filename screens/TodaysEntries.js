@@ -6,11 +6,12 @@ import { format, isSameDay } from "date-fns";
 
 import EntriesOutput from "../components/EntriesOutput/EntriesOutput";
 import { EntriesContext } from "../store/entries-context";
-import { fetchData } from "../util/http";
+import { fetchData, fetchTdee } from "../util/http";
 import ErrorOverlay from "../components/UI/ErrorOverlay";
 import LoadingOverlay from "../components/UI/LoadingOverlay";
 import { useNavigation } from "@react-navigation/native";
 import { GlobalStyles } from "../constants/styles";
+import { tdeeContext } from "../store/tdee-context";
 
 export default function TodaysEntries() {
   const [isFetching, setIsFetching] = useState(true);
@@ -31,11 +32,21 @@ export default function TodaysEntries() {
         const entries = await fetchData();
         entriesCtx.setEntries(entries);
       } catch (e) {
-        setError("Could not fetch expenses!");
+        setError("Could not fetch entries!");
       }
       setIsFetching(false);
     }
-    getEntries();
+    async function getTdee() {
+      setIsFetching(true);
+      try {
+        const tdee = await fetchTdee();
+        tdeeContext.tdee = tdee
+      } catch (e) {
+        setError("Could not fetch TDEE!");
+      }
+      setIsFetching(false);
+    }
+    getTdee();
   }, []);
 
   useEffect(() => {
@@ -80,6 +91,7 @@ export default function TodaysEntries() {
         entryPeriod={"Total"}
         fallbackText={"No food entry for " + format(chosenDate, "yyyy-MM-dd")}
         showSummary={true}
+        tdee={tdeeContext.tdee}
       />
     </View>
   );
