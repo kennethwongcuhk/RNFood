@@ -103,3 +103,7 @@ export async function fetchPosts() {
     : [];
   return posts;
 }
+
+export function deletePost(id) {
+  return axios.delete(BACKEND_URL + `posts/${id}.json`);
+}

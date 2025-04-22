@@ -11,13 +11,14 @@ import {
   Alert,
   RefreshControl
 } from 'react-native';
-import { addPost, fetchPosts, storeFood } from '../util/http';
+import { addPost, fetchPosts, storeFood, deletePost } from '../util/http';
 import Button from '../components/UI/Button';
 import { GlobalStyles } from '../constants/styles';
 import { FoodContext } from '../store/food-context';
 import IconButton from '../components/UI/IconButton';
+import { Swipeable } from 'react-native-gesture-handler';
 
-function PostItem({ post, onImportFood }) {
+function PostItem({ post, onImportFood, onDelete }) {
   const formattedDate = post.date.toLocaleDateString('en-US', {
     day: 'numeric',
     month: 'short',
@@ -26,27 +27,40 @@ function PostItem({ post, onImportFood }) {
 
   const isFoodPost = post.foodItem !== null;
 
+  const renderRightActions = () => {
+    return (
+      <TouchableOpacity
+        style={styles.deleteContainer}
+        onPress={() => onDelete(post.id)}
+      >
+        <Text style={styles.deleteText}>Delete</Text>
+      </TouchableOpacity>
+    );
+  };
+
   return (
-    <View style={styles.postItem}>
-      <View style={styles.postHeader}>
-        <Text style={styles.username}>{post.username}</Text>
-        <Text style={styles.date}>{formattedDate}</Text>
-      </View>
-      <Text style={styles.title}>{post.title}</Text>
-      <Text style={styles.content}>{post.content}</Text>
-      
-      {isFoodPost && (
-        <View style={styles.importContainer}>
-          <Text style={styles.importLabel}>Add this food item to your list?</Text>
-          <IconButton 
-            icon="plus" 
-            color={GlobalStyles.colors.accent500}
-            size={24}
-            onPress={() => onImportFood(post.foodItem)}
-          />
+    <Swipeable renderRightActions={renderRightActions}>
+      <View style={styles.postItem}>
+        <View style={styles.postHeader}>
+          <Text style={styles.username}>{post.username}</Text>
+          <Text style={styles.date}>{formattedDate}</Text>
         </View>
-      )}
-    </View>
+        <Text style={styles.title}>{post.title}</Text>
+        <Text style={styles.content}>{post.content}</Text>
+        
+        {isFoodPost && (
+          <View style={styles.importContainer}>
+            <Text style={styles.importLabel}>Add this food item to your list?</Text>
+            <IconButton 
+              icon="plus" 
+              color={GlobalStyles.colors.accent500}
+              size={24}
+              onPress={() => onImportFood(post.foodItem)}
+            />
+          </View>
+        )}
+      </View>
+    </Swipeable>
   );
 }
 
@@ -58,6 +72,7 @@ export default function Community() {
   const [username, setUsername] = useState('');
   const [content, setContent] = useState('');
   const [isImporting, setIsImporting] = useState(false);
+  const [isDeleting, setIsDeleting] = useState(false);
   
   const foodCtx = useContext(FoodContext);
 
@@ -96,6 +111,33 @@ export default function Community() {
     } finally {
       setIsImporting(false);
     }
+  }
+
+  async function handleDeletePost(postId) {
+    Alert.alert(
+      'Delete Post',
+      'Are you sure you want to delete this post?',
+      [
+        { text: 'Cancel', style: 'cancel' },
+        { 
+          text: 'Delete', 
+          style: 'destructive',
+          onPress: async () => {
+            setIsDeleting(true);
+            try {
+              await deletePost(postId);
+              setPosts(currentPosts => 
+                currentPosts.filter(post => post.id !== postId)
+              );
+            } catch (error) {
+              Alert.alert('Error', 'Could not delete the post');
+            } finally {
+              setIsDeleting(false);
+            }
+          }
+        }
+      ]
+    );
   }
 
   async function handleAddPost() {
@@ -142,7 +184,7 @@ export default function Community() {
   return (
     <View style={styles.container}>
       <View style={styles.feedContainer}>
-        {(isLoading && posts.length === 0) || isImporting ? (
+        {(isLoading && posts.length === 0) || isImporting || isDeleting ? (
           <ActivityIndicator size="large" color={GlobalStyles.colors.primary100} />
         ) : posts.length > 0 ? (
           <FlatList
@@ -152,6 +194,7 @@ export default function Community() {
               <PostItem 
                 post={item} 
                 onImportFood={handleImportFood}
+                onDelete={handleDeletePost}
               />
             )}
             refreshControl={
@@ -290,6 +333,19 @@ const styles = StyleSheet.create({
     color: GlobalStyles.colors.primary100,
     fontSize: 14,
     fontWeight: 'bold',
+  },
+  deleteContainer: {
+    backgroundColor: GlobalStyles.colors.error500,
+    justifyContent: 'center',
+    alignItems: 'center',
+    width: 80,
+    borderRadius: 8,
+    marginBottom: 16,
+  },
+  deleteText: {
+    color: '#ffffff',
+    fontWeight: 'bold',
+    fontSize: 16,
   },
   emptyState: {
     flex: 1,

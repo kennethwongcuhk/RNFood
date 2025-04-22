@@ -4,6 +4,7 @@ import IconButton from "./components/UI/IconButton";
 import FontAwesome6 from "@expo/vector-icons/FontAwesome6";
 import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
 import Ionicons from "@expo/vector-icons/Ionicons";
+import { GestureHandlerRootView } from "react-native-gesture-handler";
 
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
@@ -183,18 +184,17 @@ function FoodStack() {
 
 export default function App() {
   return (
-    <>
+    <GestureHandlerRootView style={{ flex: 1 }}>
       <StatusBar style="light" />
       <TdeeContextProvider>
-        
-      <EntriesContextProvider>
-        <FoodContextProvider>
-          <NavigationContainer>
-            <MyTabs />
-          </NavigationContainer>
-        </FoodContextProvider>
-      </EntriesContextProvider>
+        <EntriesContextProvider>
+          <FoodContextProvider>
+            <NavigationContainer>
+              <MyTabs />
+            </NavigationContainer>
+          </FoodContextProvider>
+        </EntriesContextProvider>
       </TdeeContextProvider>
-    </>
+    </GestureHandlerRootView>
   );
 }
